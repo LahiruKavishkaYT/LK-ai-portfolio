@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio URL Tester</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        .tester {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #FF5722;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background: #FF5722;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+        }
+        button:hover {
+            background: #e64a19;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .success {
+            background: #1b5e20;
+            border: 1px solid #2e7d32;
+        }
+        .error {
+            background: #b71c1c;
+            border: 1px solid #c62828;
+        }
+        .info {
+            background: #01579b;
+            border: 1px solid #0277bd;
+        }
+        code {
+            background: #0a0a0a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .preset-urls {
+            margin-top: 20px;
+        }
+        .preset-btn {
+            background: #444;
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+        .preset-btn:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎵 Audio URL Tester</h1>
+    <p>Test your audio URLs before adding them to the app. This helps identify CORS and format issues.</p>
+
+    <div class="tester">
+        <h3>Test Audio URL</h3>
+        <input 
+            type="text" 
+            id="audioUrl" 
+            placeholder="Enter audio URL (e.g., https://example.com/audio.mp3 or /audio/file.mp3)"
+            value="https://vapi-public-assets.s3.amazonaws.com/97e9375b-9d2a-4384-95e2-63b7720963d7.mp3"
+        >
+        
+        <div class="preset-urls">
+            <strong>Quick Test URLs:</strong><br>
+            <button class="preset-btn" onclick="testPreset('https://vapi-public-assets.s3.amazonaws.com/97e9375b-9d2a-4384-95e2-63b7720963d7.mp3')">VAPI Demo 1</button>
+            <button class="preset-btn" onclick="testPreset('https://vapi-public-assets.s3.amazonaws.com/0014e366-508b-4b67-9c9f-3211516e8b7c.mp3')">VAPI Demo 2</button>
+            <button class="preset-btn" onclick="testPreset('/audio/real-estate-demo.mp3')">Local File 1</button>
+            <button class="preset-btn" onclick="testPreset('/audio/med-spa-demo.mp3')">Local File 2</button>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button onclick="testAudio()">▶ Test Audio</button>
+            <button onclick="stopAudio()">⏹ Stop</button>
+            <button onclick="clearResults()">Clear</button>
+        </div>
+
+        <div id="status"></div>
+
+        <audio id="testAudio" style="display: none;"></audio>
+    </div>
+
+    <div class="tester">
+        <h3>📖 How to Use</h3>
+        <ol>
+            <li>Paste your audio URL in the input field above</li>
+            <li>Click "Test Audio" to verify it works</li>
+            <li>If successful, the audio will play and show technical details</li>
+            <li>If error, see the error message for troubleshooting</li>
+        </ol>
+
+        <h4>Common Issues:</h4>
+        <ul>
+            <li><strong>CORS Error:</strong> Server doesn't allow browser access - host files yourself</li>
+            <li><strong>404 Not Found:</strong> URL is incorrect or file doesn't exist</li>
+            <li><strong>Format Error:</strong> Use MP3 format for best compatibility</li>
+            <li><strong>Network Error:</strong> Check your internet connection</li>
+        </ul>
+    </div>
+
+    <script>
+        let audio = document.getElementById('testAudio');
+        let statusDiv = document.getElementById('status');
+
+        function testPreset(url) {
+            document.getElementById('audioUrl').value = url;
+            testAudio();
+        }
+
+        function testAudio() {
+            const url = document.getElementById('audioUrl').value.trim();
+            
+            if (!url) {
+                showStatus('Please enter an audio URL', 'error');
+                return;
+            }
+
+            showStatus('Testing audio URL...', 'info');
+            
+            // Reset audio
+            audio.pause();
+            audio.currentTime = 0;
+            audio.src = '';
+
+            // Create new audio element for better error detection
+            audio = new Audio();
+            
+            // Event listeners
+            audio.addEventListener('loadedmetadata', () => {
+                const duration = audio.duration;
+                const minutes = Math.floor(duration / 60);
+                const seconds = Math.floor(duration % 60);
+                
+                showStatus(`
+                    ✅ <strong>Audio loaded successfully!</strong><br>
+                    Duration: ${minutes}:${seconds.toString().padStart(2, '0')}<br>
+                    Ready State: ${audio.readyState}<br>
+                    Network State: ${audio.networkState}<br>
+                    URL: <code>${url}</code>
+                `, 'success');
+            });
+
+            audio.addEventListener('playing', () => {
+                console.log('Audio is playing');
+            });
+
+            audio.addEventListener('error', (e) => {
+                const error = audio.error;
+                let errorMsg = 'Unknown error';
+                let errorCode = error ? error.code : 'N/A';
+                
+                if (error) {
+                    switch (error.code) {
+                        case 1:
+                            errorMsg = 'MEDIA_ERR_ABORTED: Loading was aborted';
+                            break;
+                        case 2:
+                            errorMsg = 'MEDIA_ERR_NETWORK: Network error occurred';
+                            break;
+                        case 3:
+                            errorMsg = 'MEDIA_ERR_DECODE: Decoding error (corrupt file)';
+                            break;
+                        case 4:
+                            errorMsg = 'MEDIA_ERR_SRC_NOT_SUPPORTED: Format not supported or CORS blocked';
+                            break;
+                    }
+                }
+
+                showStatus(`
+                    ❌ <strong>Error Loading Audio</strong><br>
+                    Error: ${errorMsg}<br>
+                    Code: ${errorCode}<br>
+                    URL: <code>${url}</code><br><br>
+                    <strong>Solutions:</strong><br>
+                    • If CORS error: Host files yourself or use proper CORS headers<br>
+                    • If 404: Check URL is correct<br>
+                    • If format error: Convert to MP3<br>
+                    • If network error: Check internet connection
+                `, 'error');
+                
+                console.error('Audio error details:', error);
+            });
+
+            audio.addEventListener('canplay', () => {
+                // Try to play
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('Playback started successfully');
+                        })
+                        .catch(err => {
+                            console.error('Playback failed:', err);
+                            showStatus(`
+                                ⚠️ <strong>Audio loaded but autoplay blocked</strong><br>
+                                This is normal browser behavior. The play button will work on your site.<br>
+                                Error: ${err.message}
+                            `, 'info');
+                        });
+                }
+            });
+
+            // Set source and load
+            audio.src = url;
+            audio.load();
+        }
+
+        function stopAudio() {
+            audio.pause();
+            audio.currentTime = 0;
+            showStatus('Audio stopped', 'info');
+        }
+
+        function clearResults() {
+            statusDiv.innerHTML = '';
+            audio.pause();
+            audio.currentTime = 0;
+        }
+
+        function showStatus(message, type) {
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>

@@ -36,7 +36,10 @@ const Navbar: React.FC = () => {
           }
         });
       },
-      { rootMargin: "-20% 0px -50% 0px" } // Adjusted for more natural transitions
+      { 
+        rootMargin: "-20% 0px -50% 0px",
+        threshold: 0.1
+      }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -151,7 +154,7 @@ const Navbar: React.FC = () => {
                       layoutId="activeTab"
                       className="absolute inset-0 bg-brand-orange rounded-full shadow-[0_2px_10px_rgba(255,87,34,0.3)]"
                       initial={false}
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       style={{ zIndex: -1 }}
                       />
                   )}

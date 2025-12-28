@@ -5,51 +5,7 @@ import { Reveal } from './ui/Reveal';
 import { db } from '../lib/firebase';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 
-const TESTIMONIALS = [
-  {
-    id: '1',
-    type: 'twitter',
-    author: 'Alex Hormozi',
-    handle: '@AlexHormozi',
-    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop',
-    content: "Just saw the workflow automation Lahiru built. It's not just code, it's printing money. The latency on the voice agent is actually insane. 🤯",
-    date: '2d'
-  },
-  {
-    id: '2',
-    type: 'video',
-    thumbnail: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop',
-    videoUrl: 'https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4',
-    author: 'Sarah Jenkins',
-    role: 'CEO, HealthFlow',
-    duration: '0:30'
-  },
-  {
-    id: '3',
-    type: 'linkedin',
-    author: 'David Park',
-    role: 'Founder @ TechScale',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
-    content: "Working with Lahiru changed our entire operations. We went from 5 support staff to 1 AI agent handling 24/7 triage. The ROI was immediate.",
-    date: '1w'
-  },
-  {
-    id: '4',
-    type: 'video',
-    thumbnail: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
-    videoUrl: 'https://videos.pexels.com/video-files/3130203/3130203-uhd_2560_1440_30fps.mp4',
-    author: 'Michael Chen',
-    role: 'Director, Apex Dental',
-    duration: '0:25'
-  },
-  {
-     id: '5',
-     type: 'quote',
-     content: "The system paid for itself in 14 days.",
-     author: "Confidential Client",
-     role: "Fintech"
-  }
-];
+const TESTIMONIALS: any[] = [];
 
 interface SkeletonProps {
   type?: 'text' | 'video';

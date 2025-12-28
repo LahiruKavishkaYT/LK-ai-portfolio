@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Play, Twitter, Linkedin, Quote, X } from 'lucide-react';
+import { Play, Linkedin, Quote, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from './ui/Reveal';
 import { db } from '../lib/firebase';
@@ -103,7 +103,7 @@ const TwitterCard = ({ item }: any) => (
             <p className="text-brand-text/60 text-xs">{item.handle}</p>
           </div>
         </div>
-        <Twitter size={16} className="text-[#1DA1F2]" fill="currentColor" />
+        <X size={16} className="text-white" fill="currentColor" />
       </div>
       <p className="text-brand-text text-sm leading-relaxed mb-4">{item.content}</p>
     </div>

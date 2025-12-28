@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linkedin, Twitter, Mail } from 'lucide-react';
+import { Linkedin, X, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -10,13 +10,18 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="flex gap-6">
-          <a href="#" aria-label="LinkedIn" className="text-brand-text hover:text-white transition-colors transform hover:-translate-y-1 duration-200">
+          <a href="https://www.linkedin.com/in/lahiru-jayasooriya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-brand-text hover:text-white transition-colors transform hover:-translate-y-1 duration-200">
             <Linkedin size={20} />
           </a>
-          <a href="#" aria-label="Twitter" className="text-brand-text hover:text-white transition-colors transform hover:-translate-y-1 duration-200">
-            <Twitter size={20} />
+          <a href="https://x.com/Lamba_YT" target="_blank" rel="noopener noreferrer" aria-label="X" className="text-brand-text hover:text-white transition-colors transform hover:-translate-y-1 duration-200">
+            <X size={20} />
           </a>
-          <a href="mailto:hello@example.com" aria-label="Email" className="text-brand-text hover:text-white transition-colors transform hover:-translate-y-1 duration-200">
+          <a href="https://www.tiktok.com/@ai.automation.dev" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="text-brand-text hover:text-white transition-colors transform hover:-translate-y-1 duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+            </svg>
+          </a>
+          <a href="mailto:jlkavishka@gmail.com" aria-label="Email" className="text-brand-text hover:text-white transition-colors transform hover:-translate-y-1 duration-200">
             <Mail size={20} />
           </a>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Linkedin, Twitter, Mail, Check, Loader2 } from 'lucide-react';
+import { Send, Linkedin, X, Mail, Check, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from './ui/Reveal';
 import { db } from '../lib/firebase';
@@ -33,13 +33,18 @@ const Contact: React.FC = () => {
 
   const SocialLinks = () => (
     <div className="flex gap-3">
-      <a href="#" className="p-2.5 bg-[#111] border border-white/10 rounded-full hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all text-brand-text group" aria-label="LinkedIn">
+      <a href="https://www.linkedin.com/in/lahiru-jayasooriya/" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-[#111] border border-white/10 rounded-full hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all text-brand-text group" aria-label="LinkedIn">
         <Linkedin size={18} className="group-hover:scale-110 transition-transform" />
       </a>
-      <a href="#" className="p-2.5 bg-[#111] border border-white/10 rounded-full hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all text-brand-text group" aria-label="Twitter">
-        <Twitter size={18} className="group-hover:scale-110 transition-transform" />
+      <a href="https://x.com/Lamba_YT" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-[#111] border border-white/10 rounded-full hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all text-brand-text group" aria-label="X">
+        <X size={18} className="group-hover:scale-110 transition-transform" />
       </a>
-      <a href="mailto:hello@example.com" className="p-2.5 bg-[#111] border border-white/10 rounded-full hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all text-brand-text group" aria-label="Email">
+      <a href="https://www.tiktok.com/@ai.automation.dev" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-[#111] border border-white/10 rounded-full hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all text-brand-text group" aria-label="TikTok">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
+          <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+        </svg>
+      </a>
+      <a href="mailto:jlkavishka@gmail.com" className="p-2.5 bg-[#111] border border-white/10 rounded-full hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all text-brand-text group" aria-label="Email">
         <Mail size={18} className="group-hover:scale-110 transition-transform" />
       </a>
     </div>

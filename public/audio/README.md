@@ -4,7 +4,7 @@
 
 Place your voice AI demo audio files here:
 
-1. **real-estate-demo.mp3** - Real Estate Acquisition demo
+1. **property-acquisition-specialist.wav** - Real Estate Acquisition demo
 2. **med-spa-demo.mp3** - Medical Spa demo
 
 ## Recommended Audio Specifications

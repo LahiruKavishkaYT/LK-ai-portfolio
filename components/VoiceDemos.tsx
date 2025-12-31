@@ -242,7 +242,7 @@ const VoiceDemos: React.FC = () => {
         <Reveal delay={0.4}>
           <VoiceCard 
             icon={HeartPulse}
-            title="M Nail and Lash Spa"
+            title="Lumina Med Spa"
             subtitle="Clinical Triage & Scheduling"
             quote="Handles service selection, availability checking, and instant triage for clinical appointments."
             audioUrl={getAudioUrl('medSpa')}

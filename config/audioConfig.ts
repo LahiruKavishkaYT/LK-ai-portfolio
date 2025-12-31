@@ -11,14 +11,14 @@ export const AUDIO_CONFIG = {
   demos: {
     realEstate: {
       // Local path (when useLocalAudio = true)
-      local: '/audio/real-estate-demo.mp3',
+      local: '/audio/property-acquisition-specialist.wav',
       // External URL (when useExternalAudio = true)
       external: 'https://vapi-public-assets.s3.amazonaws.com/97e9375b-9d2a-4384-95e2-63b7720963d7.mp3',
       // Fallback URL
       fallback: '/audio/placeholder.mp3'
     },
     medSpa: {
-      local: '/audio/vapi.wav',
+      local: '/audio/lumina-spa.wav',
       external: 'https://vapi-public-assets.s3.amazonaws.com/0014e366-508b-4b67-9c9f-3211516e8b7c.mp3',
       fallback: '/audio/placeholder.mp3'
     }

@@ -56,8 +56,8 @@ const Home = () => {
       <main>
         <Hero />
         <VoiceDemos />
-        <Feedback />
         <UseCase />
+        <Feedback />
         <About />
         <ROICalculator />
         <Contact />

@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
       // WORK Group
       case 'demos':
       case 'work':
-      case 'roi':
+      case 'use-cases':
         return '#demos';
         
       // FEEDBACK Group
@@ -100,6 +100,7 @@ const Navbar: React.FC = () => {
         
       // ABOUT Group
       case 'about':
+      case 'roi':
         return '#about';
         
       // CONTACT Group

@@ -8,41 +8,22 @@ const USE_CASES = [
     id: 'med-spa',
     title: 'Medical Spa Concierge',
     description: 'Automate consultations, qualify patients, and collect deposits.',
-    video: 'https://videos.pexels.com/video-files/4033108/4033108-uhd_2560_1440_25fps.mp4', 
-    thumbnail: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2668&auto=format&fit=crop',
-    duration: '0:30'
+    video: '/video/dental clinic.mp4', 
+    thumbnail: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2668&auto=format&fit=crop'
   },
   {
     id: 'real-estate',
     title: 'Real Estate ISA',
     description: 'Qualify buyer intent and live-transfer hot leads to closers.',
-    video: 'https://videos.pexels.com/video-files/8292415/8292415-uhd_2560_1440_30fps.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop',
-    duration: '0:25'
-  },
-  {
-    id: 'legal',
-    title: 'Legal Intake Specialist',
-    description: 'Screen claimants and gather incident details 24/7.',
-    video: 'https://videos.pexels.com/video-files/4033116/4033116-uhd_2560_1440_25fps.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=2670&auto=format&fit=crop',
-    duration: '0:40'
-  },
-  {
-    id: 'recruitment',
-    title: 'Recruitment Screener',
-    description: 'Evaluate technical requirements and culture fit at scale.',
-    video: 'https://videos.pexels.com/video-files/3130203/3130203-uhd_2560_1440_30fps.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2632&auto=format&fit=crop',
-    duration: '0:35'
+    video: '/video/ai agency demo.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop'
   },
   {
     id: 'home-services',
     title: 'Service Dispatch (HVAC)',
     description: 'Triage emergency issues and route technicians efficiently.',
-    video: 'https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2669&auto=format&fit=crop',
-    duration: '0:45'
+    video: '/video/hvac.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2669&auto=format&fit=crop'
   }
 ];
 
@@ -65,6 +46,7 @@ const UseCase: React.FC = () => {
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [isBuffering, setIsBuffering] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [videoDuration, setVideoDuration] = useState<string>('0:00');
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -250,7 +232,7 @@ const UseCase: React.FC = () => {
                                  </div>
 
                                  <div className="absolute bottom-6 right-6 px-3 py-1.5 bg-black/60 backdrop-blur-md border border-white/10 rounded text-xs font-mono text-white/90">
-                                     {activeCase.duration}
+                                     {videoDuration}
                                  </div>
                              </motion.div>
                         )}
@@ -283,6 +265,12 @@ const UseCase: React.FC = () => {
                         onWaiting={() => setIsBuffering(true)}
                         onPlaying={() => setIsBuffering(false)}
                         onCanPlay={() => setIsBuffering(false)}
+                        onLoadedMetadata={() => {
+                            if (videoRef.current) {
+                                const duration = videoRef.current.duration;
+                                setVideoDuration(formatTime(duration));
+                            }
+                        }}
                     />
 
                     <AnimatePresence>
@@ -359,7 +347,7 @@ const UseCase: React.FC = () => {
                                     </div>
                                     
                                     <span className="text-xs font-mono text-white/70 tabular-nums select-none">
-                                        {videoRef.current ? formatTime(videoRef.current.currentTime) : "0:00"} / {activeCase.duration}
+                                        {videoRef.current ? formatTime(videoRef.current.currentTime) : "0:00"} / {videoDuration}
                                     </span>
                                 </div>
 

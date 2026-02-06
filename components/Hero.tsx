@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioUrl = "https://vapi-public-assets.s3.amazonaws.com/0014e366-508b-4b67-9c9f-3211516e8b7c.mp3";
+  const audioUrl = "/audio/lumina-spa.wav";
 
   const toggleAudio = () => {
     if (!audioRef.current) return;
@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
         preload="none"
         src={audioUrl}
       >
-        <source src={audioUrl} type="audio/mpeg" />
+        <source src={audioUrl} type="audio/wav" />
       </audio>
 
       <div className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none" aria-hidden="true">

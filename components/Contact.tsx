@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Send, Linkedin, X, Mail, Check, Loader2, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from './ui/Reveal';
@@ -8,6 +8,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 const Contact: React.FC = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +35,9 @@ const Contact: React.FC = () => {
       await addDoc(collection(db, 'contacts'), data);
       setFormStatus('success');
       // Reset form
-      e.currentTarget.reset();
+      if (formRef.current) {
+        formRef.current.reset();
+      }
     } catch (error: any) {
       console.error("Error sending message:", error);
       const errorMsg = error?.message || 'Failed to send message. Please try again or contact me directly at jlkavishka@gmail.com';
@@ -154,6 +157,7 @@ const Contact: React.FC = () => {
             ) : (
               <motion.form 
                 key="form"
+                ref={formRef}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

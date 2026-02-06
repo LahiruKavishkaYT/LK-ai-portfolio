@@ -78,7 +78,7 @@ const Hero: React.FC = () => {
           muted 
           playsInline
           className="w-full h-full object-cover opacity-15 grayscale blur-sm"
-          src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4"
+          src="/video/hvac.mp4"
         >
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-dark/60 to-brand-dark z-10" />

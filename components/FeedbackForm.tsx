@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Type, Video, Upload, Camera, Info, StopCircle, Play, Trash2, Check, X, Loader2 } from 'lucide-react';
+import { Type, Video, Upload, Camera, Info, StopCircle, Play, Trash2, Check, X, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { db, storage } from '../lib/firebase';
+import { db, storage, isFirebaseReady } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -122,6 +122,12 @@ const FeedbackForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isFirebaseReady) {
+      alert('Feedback service is currently unavailable. Please contact us directly at jlkavishka@gmail.com');
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
@@ -151,8 +157,10 @@ const FeedbackForm = () => {
       setFormData({ fullName: '', role: '', testimonial: '' });
       setRecordedVideo(null);
       setVideoBlob(null);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting feedback:", error);
+      const errorMsg = error?.message || 'Failed to submit feedback. Please try again or contact us at jlkavishka@gmail.com';
+      alert(errorMsg);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
-import { Send, Linkedin, X, Mail, Check, Loader2 } from 'lucide-react';
+import { Send, Linkedin, X, Mail, Check, Loader2, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from './ui/Reveal';
-import { db } from '../lib/firebase';
+import { db, isFirebaseReady } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const Contact: React.FC = () => {
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (!isFirebaseReady) {
+      setErrorMessage('Email service is currently unavailable. Please contact me directly at jlkavishka@gmail.com');
+      setFormStatus('error');
+      return;
+    }
+    
     setFormStatus('submitting');
+    setErrorMessage('');
     
     const formData = new FormData(e.currentTarget);
     const data = {
@@ -24,10 +33,13 @@ const Contact: React.FC = () => {
     try {
       await addDoc(collection(db, 'contacts'), data);
       setFormStatus('success');
-    } catch (error) {
+      // Reset form
+      e.currentTarget.reset();
+    } catch (error: any) {
       console.error("Error sending message:", error);
-      alert("Failed to send message. Please try again.");
-      setFormStatus('idle');
+      const errorMsg = error?.message || 'Failed to send message. Please try again or contact me directly at jlkavishka@gmail.com';
+      setErrorMessage(errorMsg);
+      setFormStatus('error');
     }
   };
 
@@ -97,10 +109,46 @@ const Contact: React.FC = () => {
                 </div>
 
                 <button 
-                  onClick={() => setFormStatus('idle')}
+                  onClick={() => {
+                    setFormStatus('idle');
+                    setErrorMessage('');
+                  }}
                   className="mt-12 text-xs text-brand-text/60 hover:text-brand-orange transition-colors border-b border-transparent hover:border-brand-orange pb-0.5"
                 >
                   Send another message
+                </button>
+              </motion.div>
+            ) : formStatus === 'error' ? (
+              <motion.div 
+                key="error"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="flex flex-col items-center justify-center text-center h-full z-10"
+              >
+                <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mb-6 border border-red-500/20">
+                  <AlertCircle size={40} className="text-red-500" />
+                </div>
+                
+                <h3 className="text-2xl font-bold text-white mb-2">Something Went Wrong</h3>
+                <p className="text-brand-text max-w-md mb-4 leading-relaxed">
+                  {errorMessage}
+                </p>
+                
+                <div className="flex flex-col items-center gap-4 mb-6">
+                  <span className="text-[10px] font-bold tracking-widest text-brand-text/40 uppercase">Contact me directly</span>
+                  <SocialLinks />
+                </div>
+
+                <button 
+                  onClick={() => {
+                    setFormStatus('idle');
+                    setErrorMessage('');
+                  }}
+                  className="px-6 py-2 bg-brand-orange hover:bg-brand-orange/90 text-white rounded-lg font-medium transition-colors"
+                >
+                  Try Again
                 </button>
               </motion.div>
             ) : (

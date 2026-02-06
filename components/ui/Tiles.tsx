@@ -39,14 +39,14 @@ export const Tiles: React.FC<TilesProps> = ({
           {colsArray.map((_, j) => (
             <motion.div
               key={`tile-${i}-${j}`}
-              initial={{ backgroundColor: "transparent" }}
+              initial={{ backgroundColor: "rgba(255, 87, 34, 0)" }}
               whileHover={{
                 backgroundColor: "rgba(255, 87, 34, 0.15)", // Brand orange low opacity
                 transition: { duration: 0 },
               }}
               animate={{
                 transition: { duration: 2, ease: "linear" },
-                backgroundColor: "transparent",
+                backgroundColor: "rgba(255, 87, 34, 0)",
               }}
               className={cn(
                 "w-full h-12 md:h-16 border-t border-white/5 relative shrink-0",

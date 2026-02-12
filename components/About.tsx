@@ -22,16 +22,16 @@ const About: React.FC = () => {
 
         <Reveal delay={0.3}>
           <div>
-            <h2 id="about-heading" className="text-4xl font-bold mb-6">Hi, I'm <span className="text-brand-orange">Lahiru Kavishka</span></h2>
+            <h2 id="about-heading" className="text-4xl font-bold mb-6">Hi, I'm <span className="text-brand-orange">Lahiru.</span></h2>
             <p className="text-xl font-medium text-white mb-6">
-              I build <span className="text-brand-orange">Voice AI Agents</span> for businesses to enhance their sales and customer handling.
+              Most HVAC businesses bleed thousands of dollars every month simply because they can't answer the phone fast enough during peak seasons or after hours.
             </p>
             <div className="space-y-6 text-brand-text leading-relaxed">
               <p>
-                I help businesses scale their operations without scaling their headcount. My AI agents don't just answer calls; they understand context, handle objections, and close deals just like your best human employees—but at a fraction of the cost and with zero downtime.
+                I don't just build chatbots. I engineer custom voice infrastructure that integrates seamlessly with your dispatch software.
               </p>
               <p>
-                From qualifying leads to scheduling appointments and resolving support tickets, I build custom voice infrastructure that integrates seamlessly with your existing CRM. The result? You stop losing leads to voicemail and start capturing every opportunity, day or night.
+                My goal is simple: ensure every single caller talks to a polite, intelligent agent instantly, so you stop leaving money on the table.
               </p>
             </div>
           </div>

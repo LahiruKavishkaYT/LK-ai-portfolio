@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Calendar, Loader2 } from 'lucide-react';
+import { Play, Pause, Calendar, Loader2, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from './ui/Reveal';
 import { Tiles } from './ui/Tiles';
@@ -113,57 +113,45 @@ const Hero: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-orange"></span>
                 </span>
-                Voice AI & Automation
+                HVAC Voice AI Solutions
               </div>
             </div>
           </Reveal>
           
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.1] text-white flex flex-col items-center">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-[1.15] text-white flex flex-col items-center">
             <Reveal width="fit-content" delay={0.2} yOffset={25} duration={1.2} blurStrength={10}>
-              <span>Engineering The</span>
+              <span>Stop Losing <span className="text-transparent bg-clip-text bg-gradient-to-br from-brand-orange via-brand-orange to-orange-200">$1,000+</span></span>
             </Reveal>
             <Reveal width="fit-content" delay={0.4} yOffset={25} duration={1.2} blurStrength={10}>
+              <span>Emergency HVAC Jobs</span>
+            </Reveal>
+            <Reveal width="fit-content" delay={0.6} yOffset={25} duration={1.2} blurStrength={10}>
               <span className="block pb-2 text-transparent bg-clip-text bg-gradient-to-br from-brand-orange via-brand-orange to-orange-200 inline-block">
-                Invisible Workforce.
+                to Voicemail.
               </span>
             </Reveal>
           </h1>
 
-          <Reveal width="100%" delay={0.6} yOffset={20} duration={1.4} blurStrength={6}>
-            <p className="text-lg md:text-xl text-brand-text max-w-2xl mx-auto mb-12 leading-relaxed font-light">
-              I engineer autonomous AI workforces for aesthetic clinics. My systems handle patient intake, scheduling, and sales with human-like empathy—scaling your revenue 24/7 without adding front-desk headcount.
+          <Reveal width="100%" delay={0.8} yOffset={20} duration={1.4} blurStrength={6}>
+            <p className="text-lg md:text-xl text-brand-text max-w-3xl mx-auto mb-12 leading-relaxed font-light">
+              I build Voice AI Receptionists specifically for HVAC businesses. My system answers 24/7, understands the difference between a routine tune-up and a blown compressor, qualifies the lead, and books the appointment directly onto your calendar.
             </p>
           </Reveal>
 
-          <Reveal width="100%" delay={0.8} yOffset={15} duration={1.0} blurStrength={4}>
+          <Reveal width="100%" delay={1.0} yOffset={15} duration={1.0} blurStrength={4}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#contact" className="group flex items-center gap-2 bg-white text-black px-8 py-4 rounded-sm font-bold text-sm hover:bg-[#f0f0f0] transition-all w-full sm:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 focus-visible:ring-offset-black shadow-lg shadow-white/5 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,87,34,0.3)] active:scale-95 duration-300">
                 <Calendar size={16} className="mb-0.5 transition-transform group-hover:rotate-12" aria-hidden="true" />
                 Book Strategy Session
               </a>
               
-              <button 
-                onClick={toggleAudio}
-                disabled={isLoading}
-                className={`group flex items-center gap-2 bg-transparent border border-white/20 text-white px-8 py-4 rounded-sm font-bold text-sm hover:bg-white/5 transition-all w-full sm:w-auto justify-center backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white hover:border-white/50 hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] duration-300 cursor-pointer disabled:opacity-50 ${isPlaying ? 'border-brand-orange/50 shadow-[0_0_15px_rgba(255,87,34,0.2)] bg-brand-orange/5' : ''}`}
+              <a 
+                href="tel:+18001234567"
+                className="group flex items-center gap-2 bg-transparent border-2 border-brand-orange/50 text-white px-8 py-4 rounded-sm font-bold text-sm hover:bg-brand-orange/10 transition-all w-full sm:w-auto justify-center backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange hover:border-brand-orange hover:scale-105 active:scale-95 hover:shadow-[0_0_25px_rgba(255,87,34,0.4)] duration-300 shadow-[0_0_15px_rgba(255,87,34,0.2)]"
               >
-                <AnimatePresence mode="wait">
-                  {isLoading ? (
-                    <motion.div key="loader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <Loader2 size={16} className="animate-spin" />
-                    </motion.div>
-                  ) : isPlaying ? (
-                    <motion.div key="pause" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <Pause size={16} fill="white" aria-hidden="true" />
-                    </motion.div>
-                  ) : (
-                    <motion.div key="play" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <Play size={16} fill="white" aria-hidden="true" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {isLoading ? 'Loading...' : isPlaying ? 'Pause Demo' : 'Audible Demo'}
-              </button>
+                <Phone size={16} className="transition-transform group-hover:rotate-12" aria-hidden="true" />
+                 Call the AI Demo Now
+              </a>
             </div>
           </Reveal>
         </div>

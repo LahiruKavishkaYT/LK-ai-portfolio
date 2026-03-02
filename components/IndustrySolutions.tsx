@@ -12,6 +12,12 @@ interface Scenario {
 
 const SCENARIOS: Scenario[] = [
   {
+    id: 'graceful-fallback',
+    title: 'Graceful fallback, caller never notices',
+    description: 'Tool call fails silently agent recovers and continues without dropping the call.',
+    vimeoId: '1169450770'
+  },
+    {
     id: 'on-brand',
     title: 'Stays on-brand, never wastes a dispatcher\'s time',
     description: 'Caller gives a zip outside the service area, the agent handles it cleanly.',
@@ -34,12 +40,6 @@ const SCENARIOS: Scenario[] = [
     title: 'Handles frustrated customers without breaking',
     description: 'Angry caller, raised tone agent stays calm and keeps the conversation on track.',
     vimeoId: '1169448912'
-  },
-  {
-    id: 'graceful-fallback',
-    title: 'Graceful fallback, caller never notices',
-    description: 'Tool call fails silently agent recovers and continues without dropping the call.',
-    vimeoId: '1169450770'
   },
   {
     id: 'end-to-end',
@@ -70,7 +70,7 @@ const IndustrySolutions: React.FC = () => {
       <Reveal width="100%">
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-[10px] font-bold uppercase tracking-widest mb-4">
-            ⚡ HVAC AGENTS · USA
+            ⚡ HVAC AGENTS · 
           </div>
           <h2 id="industry-solutions-heading" className="text-3xl md:text-5xl font-bold mb-4 text-white">
             Hear It Handle the Hard Stuff

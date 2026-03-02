@@ -134,7 +134,7 @@ const Hero: React.FC = () => {
 
           <Reveal width="100%" delay={0.8} yOffset={20} duration={1.4} blurStrength={6}>
             <p className="text-lg md:text-xl text-brand-text max-w-3xl mx-auto mb-12 leading-relaxed font-light">
-              I build Voice AI Receptionists specifically for HVAC businesses. My system answers 24/7, understands the difference between a routine tune-up and a blown compressor, qualifies the lead, and books the appointment directly onto your calendar.
+              I build Voice AI Receptionists specifically for HVAC businesses. My system answers 24/7, understands the difference between a routine tune-up and a blown compressor, qualifies the lead and books the appointment directly onto your calendar.
             </p>
           </Reveal>
 
@@ -146,7 +146,7 @@ const Hero: React.FC = () => {
               </a>
               
               <a 
-                href="tel:+18001234567"
+                href="tel:+18885800027"
                 className="group flex items-center gap-2 bg-transparent border-2 border-brand-orange/50 text-white px-8 py-4 rounded-sm font-bold text-sm hover:bg-brand-orange/10 transition-all w-full sm:w-auto justify-center backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange hover:border-brand-orange hover:scale-105 active:scale-95 hover:shadow-[0_0_25px_rgba(255,87,34,0.4)] duration-300 shadow-[0_0_15px_rgba(255,87,34,0.2)]"
               >
                 <Phone size={16} className="transition-transform group-hover:rotate-12" aria-hidden="true" />

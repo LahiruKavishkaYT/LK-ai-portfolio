@@ -5,7 +5,7 @@ import { NavItem } from '../types';
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'WORK', href: '#demos' },
-  { label: 'FEEDBACK', href: '#feedback' },
+  // { label: 'FEEDBACK', href: '#feedback' },
   { label: 'ABOUT', href: '#about' },
   { label: 'CONTACT', href: '#contact' },
 ];

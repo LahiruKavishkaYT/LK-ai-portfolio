@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import VoiceDemos from './VoiceDemos';
-import UseCase from './UseCase';
+import IndustrySolutions from './IndustrySolutions';
 import ROICalculator from './ROICalculator';
 import Feedback from './Feedback';
 import About from './About';
@@ -56,7 +56,7 @@ const Home = () => {
       <main>
         <Hero />
         <VoiceDemos />
-        <UseCase />
+        <IndustrySolutions />
         <Feedback />
         <About />
         <ROICalculator />

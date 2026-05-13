@@ -1,69 +1,58 @@
 import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
-import VoiceDemos from './VoiceDemos';
-import IndustrySolutions from './IndustrySolutions';
-import ROICalculator from './ROICalculator';
-import Feedback from './Feedback';
+import HowItWorks from './VoiceDemos';
+import Features from './IndustrySolutions';
+import Results from './ROICalculator';
 import About from './About';
-import Contact from './Contact';
-import Footer from './Footer';
+import Offer from './Contact';
+import Footer, { FAQ, FinalCTA } from './Footer';
 
-const Home = () => {
-  // Global Smooth Scroll Handler for all internal links
+const Home: React.FC = () => {
   useEffect(() => {
     const handleAnchorClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      // Find the nearest parent anchor tag
-      const anchor = target.closest('a');
-      
+      const anchor = (e.target as HTMLElement).closest('a');
       if (anchor && anchor.hash && anchor.hash.startsWith('#') && anchor.getAttribute('href') !== '#') {
-        const targetId = anchor.hash.slice(1);
-        const targetElement = document.getElementById(targetId);
-        
-        if (targetElement) {
+        const targetEl = document.getElementById(anchor.hash.slice(1));
+        if (targetEl) {
           e.preventDefault();
-          
-          // Calculate offset position for the fixed header
-          const navHeight = 80; // Standard navbar height
-          const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
-          const offsetPosition = elementPosition - navHeight;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-          
-          // Optionally update URL without jump
+          const offsetPosition = targetEl.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           window.history.pushState(null, '', anchor.hash);
         }
-      } else if (anchor && anchor.getAttribute('href') === '#') {
-        // Scroll to top for empty hash links
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        window.history.pushState(null, '', '/');
       }
     };
-
     document.addEventListener('click', handleAnchorClick);
     return () => document.removeEventListener('click', handleAnchorClick);
   }, []);
 
   return (
-    <div className="min-h-screen bg-brand-dark text-white font-sans selection:bg-brand-orange selection:text-white">
-      <Navbar />
-      
-      <main>
-        <Hero />
-        <VoiceDemos />
-        <IndustrySolutions />
-        {/* <Feedback /> */}
-        <About />
-        <ROICalculator />
-        <Contact />
-      </main>
-
-      <Footer />
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--ink)', position: 'relative' }}>
+      {/* Ambient blobs */}
+      <div style={{
+        position: 'fixed', top: 0, right: 0, width: '55vw', height: '55vh',
+        background: 'radial-gradient(circle at 70% 25%, rgba(77,159,255,0.10) 0%, transparent 55%)',
+        pointerEvents: 'none', zIndex: 0, animation: 'float-blob 18s ease-in-out infinite',
+      }} />
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, width: '55vw', height: '55vh',
+        background: 'radial-gradient(circle at 30% 75%, rgba(0,245,212,0.08) 0%, transparent 55%)',
+        pointerEvents: 'none', zIndex: 0, animation: 'float-blob 22s ease-in-out infinite reverse',
+      }} />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Navbar />
+        <main>
+          <Hero />
+          <Results />
+          <HowItWorks />
+          <Features />
+          <About />
+          <Offer />
+          <FAQ />
+          <FinalCTA />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };

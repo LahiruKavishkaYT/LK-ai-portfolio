@@ -1,159 +1,228 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Calendar, Loader2, Phone } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Reveal } from './ui/Reveal';
-import { Tiles } from './ui/Tiles';
+import React, { useState, useEffect, useMemo } from 'react';
 
-const Hero: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioUrl = "/audio/lumina-spa.wav";
-
-  const toggleAudio = () => {
-    if (!audioRef.current) return;
-    
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      // Stop other audios
-      document.querySelectorAll('audio').forEach(el => {
-        if (el !== audioRef.current) el.pause();
-      });
-
-      if (audioRef.current.readyState === 0) {
-        setIsLoading(true);
-        audioRef.current.load();
-      }
-
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        setIsLoading(true);
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            setIsLoading(false);
-          })
-          .catch(e => {
-            console.error("Audio play failed:", e);
-            setIsLoading(false);
-            setIsPlaying(false);
-          });
-      }
+const Waveform: React.FC<{ progress: number }> = ({ progress }) => {
+  const bars = useMemo(() => {
+    const out: number[] = [];
+    let s = 3;
+    for (let i = 0; i < 54; i++) {
+      s = (s * 9301 + 49297) % 233280;
+      const t = i / 53;
+      const bell = Math.sin(t * Math.PI);
+      out.push(Math.max(4, Math.round(bell * 32 * (0.5 + (s / 233280) * 0.9))));
     }
-  };
-
-  const handleEnded = () => setIsPlaying(false);
-  const handlePlay = () => {
-    setIsLoading(false);
-    setIsPlaying(true);
-  };
-  const handleError = () => {
-    const err = audioRef.current?.error;
-    console.error("Hero demo audio error:", err);
-    setIsLoading(false);
-    setIsPlaying(false);
-  };
+    return out;
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center pt-32 pb-20 overflow-hidden bg-brand-dark" aria-label="Hero Section">
-      {/* Hidden Audio Tag for better format recognition */}
-      <audio 
-        ref={audioRef}
-        onEnded={handleEnded}
-        onPlay={handlePlay}
-        onError={handleError}
-        preload="none"
-        src={audioUrl}
-      >
-        <source src={audioUrl} type="audio/wav" />
-      </audio>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 3, height: 40, padding: '4px 2px' }}>
+      {bars.map((h, i) => {
+        const active = (i / bars.length) * 100 < progress;
+        return (
+          <div key={i} style={{
+            flex: 1, height: h + 'px',
+            background: active ? 'var(--accent)' : 'rgba(255,255,255,0.12)',
+            borderRadius: 2, transition: 'background .2s ease-in-out',
+            boxShadow: active ? '0 0 6px rgba(0,245,212,0.5)' : 'none',
+          }} />
+        );
+      })}
+    </div>
+  );
+};
 
-      <div className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-brand-dark/90 z-10" /> 
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="w-full h-full object-cover opacity-15 grayscale blur-sm"
-          src="/video/hvac.mp4"
-        >
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-dark/60 to-brand-dark z-10" />
-      </div>
+const Hero: React.FC = () => {
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-      <div className="absolute inset-0 z-0 pointer-events-auto opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-dark z-10 pointer-events-none" />
-        <div className="absolute inset-0 bg-radial-gradient from-transparent to-brand-dark/80 z-10 pointer-events-none" />
-        <Tiles rows={50} cols={20} />
-      </div>
+  useEffect(() => {
+    if (!playing) return;
+    const t = setInterval(() => {
+      setProgress(p => {
+        if (p >= 100) { setPlaying(false); return 0; }
+        return p + 1.5;
+      });
+    }, 80);
+    return () => clearInterval(t);
+  }, [playing]);
 
-      <motion.div 
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-brand-orange/10 blur-[100px] rounded-full pointer-events-none z-0" 
-        aria-hidden="true" 
-        animate={{
-          opacity: [0.4, 0.7, 0.4],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      
-      <div className="z-10 text-center max-w-5xl mx-auto px-6 relative pointer-events-none">
-        <div className="pointer-events-auto">
-          <Reveal width="100%" yOffset={10} duration={0.8} blurStrength={4}>
-            <div className="flex justify-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-orange/30 bg-brand-orange/10 text-[11px] font-bold uppercase tracking-widest text-brand-orange backdrop-blur-sm shadow-[0_0_15px_rgba(255,87,34,0.2)]">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-orange"></span>
-                </span>
-                HVAC Voice AI Solutions
-              </div>
+  const elapsed = Math.floor(progress * 0.41);
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const ss = String(elapsed % 60).padStart(2, '0');
+
+  return (
+    <section id="hero" style={{ paddingTop: 60, paddingBottom: 90, position: 'relative', overflow: 'hidden' }}>
+      <div style={{
+        maxWidth: 1240, margin: '0 auto', padding: '40px 28px',
+        position: 'relative',
+        backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0)',
+        backgroundSize: '24px 24px',
+      }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 60, alignItems: 'center' }}>
+          {/* Left: value prop */}
+          <div>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '6px 14px', borderRadius: 999,
+              background: 'rgba(0,245,212,0.1)', color: 'var(--accent)',
+              border: '1px solid rgba(0,245,212,0.25)',
+              fontSize: 13, fontWeight: 600,
+            }}>
+              <span style={{
+                width: 8, height: 8, borderRadius: '50%', background: 'currentColor',
+                animation: 'pulse 2s ease-in-out infinite',
+                display: 'inline-block',
+              }} />
+              Limited: zero-fee install for 3 US dealerships
             </div>
-          </Reveal>
-          
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-[1.15] text-white flex flex-col items-center">
-            <Reveal width="fit-content" delay={0.2} yOffset={25} duration={1.2} blurStrength={10}>
-              <span>Stop Losing <span className="text-transparent bg-clip-text bg-gradient-to-br from-brand-orange via-brand-orange to-orange-200">$1,000+</span></span>
-            </Reveal>
-            <Reveal width="fit-content" delay={0.4} yOffset={25} duration={1.2} blurStrength={10}>
-              <span>Emergency HVAC Jobs</span>
-            </Reveal>
-            <Reveal width="fit-content" delay={0.6} yOffset={25} duration={1.2} blurStrength={10}>
-              <span className="block pb-2 text-transparent bg-clip-text bg-gradient-to-br from-brand-orange via-brand-orange to-orange-200 inline-block">
-                to Voicemail.
-              </span>
-            </Reveal>
-          </h1>
 
-          <Reveal width="100%" delay={0.8} yOffset={20} duration={1.4} blurStrength={6}>
-            <p className="text-lg md:text-xl text-brand-text max-w-3xl mx-auto mb-12 leading-relaxed font-light">
-              I build Voice AI Receptionists specifically for HVAC businesses. My system answers 24/7, understands the difference between a routine tune-up and a blown compressor, qualifies the lead and books the appointment directly onto your calendar.
+            <h1 style={{
+              marginTop: 24,
+              background: 'linear-gradient(135deg, #FFFFFF 0%, var(--accent) 50%, var(--secondary) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
+              Never miss<br />
+              another service call.
+            </h1>
+
+            <p style={{ fontSize: 20, marginTop: 24, maxWidth: 520, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+              Every call your team misses after 6pm is a customer booking with
+              the dealer down the road. My AI answers every ring, 24/7 — books
+              the appointment, texts the confirmation, and has it ready in your
+              CRM before the customer hangs up.
             </p>
-          </Reveal>
 
-          <Reveal width="100%" delay={1.0} yOffset={15} duration={1.0} blurStrength={4}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#contact" className="group flex items-center gap-2 bg-white text-black px-8 py-4 rounded-sm font-bold text-sm hover:bg-[#f0f0f0] transition-all w-full sm:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 focus-visible:ring-offset-black shadow-lg shadow-white/5 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,87,34,0.3)] active:scale-95 duration-300">
-                <Calendar size={16} className="mb-0.5 transition-transform group-hover:rotate-12" aria-hidden="true" />
-                Book Strategy Session
+            <div style={{ display: 'flex', gap: 14, marginTop: 32, flexWrap: 'wrap' }}>
+              <a href="#offer" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                padding: '18px 32px', borderRadius: 999,
+                background: 'var(--accent)', color: 'var(--accent-ink)',
+                fontWeight: 700, fontSize: 17, textDecoration: 'none',
+                boxShadow: '0 0 32px rgba(0,245,212,0.4), 0 0 64px rgba(0,245,212,0.15)',
+                transition: 'transform .2s ease-in-out, box-shadow .2s ease-in-out',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 48px rgba(0,245,212,0.6), 0 0 80px rgba(0,245,212,0.2)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 32px rgba(0,245,212,0.4), 0 0 64px rgba(0,245,212,0.15)'; }}>
+                Claim a free install spot →
               </a>
-              
-              <a 
-                href="tel:+18885800027"
-                className="group flex items-center gap-2 bg-transparent border-2 border-brand-orange/50 text-white px-8 py-4 rounded-sm font-bold text-sm hover:bg-brand-orange/10 transition-all w-full sm:w-auto justify-center backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange hover:border-brand-orange hover:scale-105 active:scale-95 hover:shadow-[0_0_25px_rgba(255,87,34,0.4)] duration-300 shadow-[0_0_15px_rgba(255,87,34,0.2)]"
-              >
-                <Phone size={16} className="transition-transform group-hover:rotate-12" aria-hidden="true" />
-                 Call the AI Demo Now
+              <a href="tel:+18885800027" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                padding: '18px 28px', borderRadius: 999,
+                border: '1px solid rgba(255,255,255,0.14)', color: 'var(--ink)',
+                fontWeight: 600, fontSize: 17, textDecoration: 'none',
+                transition: 'border-color .2s ease-in-out, background .2s ease-in-out',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; e.currentTarget.style.background = 'transparent'; }}>
+                📞 Call the agent — it's live
               </a>
             </div>
-          </Reveal>
+
+            <div style={{ display: 'flex', gap: 32, marginTop: 44, flexWrap: 'wrap' }}>
+              {([['< 1s', 'answer time'], ['24/7', 'coverage'], ['$0', 'install fee'], ['30-day', 'refund guarantee']] as [string, string][]).map(([n, l], i) => (
+                <div key={i}>
+                  <div style={{ fontWeight: 800, fontSize: 28, color: i === 2 ? 'var(--accent)' : 'var(--ink)', letterSpacing: '-0.02em' }}>{n}</div>
+                  <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, color: 'var(--ink-faint)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 3 }}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: call widget — glassmorphism */}
+          <div style={{
+            background: 'rgba(255,255,255,0.05)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 20, padding: 28, position: 'relative',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '6px 12px', borderRadius: 999,
+                background: 'rgba(74,222,128,0.1)', color: 'var(--success)',
+                border: '1px solid rgba(74,222,128,0.25)',
+                fontSize: 13, fontWeight: 600,
+              }}>
+                <span style={{
+                  width: 8, height: 8, borderRadius: '50%', background: 'var(--success)',
+                  animation: 'pulseGreen 2s ease-in-out infinite',
+                  display: 'inline-block',
+                }} />
+                On a live call
+              </div>
+              <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 13, color: 'var(--ink-faint)' }}>
+                {mm}:{ss} / 00:41
+              </span>
+            </div>
+
+            <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 12, padding: 18, marginBottom: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.15em' }}>CALLER · MIKE T.</div>
+              <div style={{ fontSize: 17, marginTop: 6, color: 'var(--ink)' }}>"Hey, my F-150's brakes are squeaking — can I bring it in?"</div>
+            </div>
+            <div style={{ background: 'rgba(0,245,212,0.07)', border: '1px solid rgba(0,245,212,0.2)', borderRadius: 12, padding: 18, marginBottom: 16 }}>
+              <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 10, color: 'var(--accent)', letterSpacing: '0.15em' }}>AGENT · AVA</div>
+              <div style={{ fontSize: 17, marginTop: 6, color: 'var(--ink)' }}>"Sure Mike. I've got Thursday 9am or Friday 2pm. Which works?"</div>
+            </div>
+
+            <Waveform progress={progress} />
+
+            <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
+              <button
+                onClick={() => setPlaying(!playing)}
+                style={{
+                  flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  padding: '10px 16px', borderRadius: 999,
+                  background: 'var(--accent)', color: 'var(--accent-ink)',
+                  fontWeight: 700, fontSize: 13, border: 'none', cursor: 'pointer',
+                  boxShadow: '0 0 16px rgba(0,245,212,0.35)',
+                  transition: 'transform .2s ease-in-out, box-shadow .2s ease-in-out',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 24px rgba(0,245,212,0.55)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 16px rgba(0,245,212,0.35)'; }}>
+                {playing ? '⏸  Pause' : '▶  Play sample call'}
+              </button>
+              <a href="tel:+18885800027" style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                padding: '10px 16px', borderRadius: 999,
+                border: '1px solid rgba(255,255,255,0.14)', color: 'var(--ink)',
+                fontWeight: 600, fontSize: 13, textDecoration: 'none',
+                transition: 'border-color .2s ease-in-out, background .2s ease-in-out',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; e.currentTarget.style.background = 'transparent'; }}>
+                📞 Call +1 (888) 580-0027
+              </a>
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
+              {['✓ Booked Thu 9am', '✓ SMS sent', '✓ CRM sync ready'].map(x => (
+                <span key={x} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '6px 12px', borderRadius: 999,
+                  background: 'rgba(0,245,212,0.08)', color: 'var(--accent)',
+                  border: '1px solid rgba(0,245,212,0.2)',
+                  fontSize: 11, fontWeight: 600,
+                }}>{x}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Trusted-by strip */}
+        <div style={{ marginTop: 80, paddingTop: 30, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20 }}>
+            Designed to integrate with
+          </div>
+          <div style={{ display: 'flex', gap: 40, alignItems: 'center', flexWrap: 'wrap', opacity: 0.6 }}>
+            {['CDK Global', 'Reynolds & Reynolds', 'Tekion', 'VinSolutions', 'DealerSocket', 'Elead'].map(b => (
+              <div key={b} style={{ fontWeight: 700, fontSize: 18, color: 'var(--ink-soft)', letterSpacing: '-0.01em' }}>{b}</div>
+            ))}
+          </div>
+          <div style={{ marginTop: 10, fontFamily: '"JetBrains Mono", monospace', fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.12em' }}>
+            Integrations built to your exact setup during onboarding
+          </div>
         </div>
       </div>
     </section>

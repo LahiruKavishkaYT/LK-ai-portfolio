@@ -104,7 +104,7 @@ const Offer: React.FC = () => {
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 20, padding: 40, marginBottom: 24,
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
+          <div className="r-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
             <div>
               <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, color: 'var(--accent)', letterSpacing: '0.18em', textTransform: 'uppercase' as const }}>What's included · $0</div>
               <div style={{ marginTop: 18 }}>
@@ -131,7 +131,7 @@ const Offer: React.FC = () => {
               </div>
             </div>
 
-            <div style={{ borderLeft: '1px solid rgba(255,255,255,0.08)', paddingLeft: 40 }}>
+            <div className="r-no-border-left" style={{ borderLeft: '1px solid rgba(255,255,255,0.08)', paddingLeft: 40 }}>
               <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, color: 'var(--accent)', letterSpacing: '0.18em', textTransform: 'uppercase' as const }}>What you pay</div>
               <div style={{ fontWeight: 800, fontSize: 56, marginTop: 16, letterSpacing: '-0.03em', color: 'var(--ink)' }}>
                 <span style={{ color: 'var(--ink-faint)', fontSize: 28, fontWeight: 400, textDecoration: 'line-through', marginRight: 12 }}>$4,800</span>
@@ -204,7 +204,7 @@ const Offer: React.FC = () => {
                 <SpotsLeft />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div className="r-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                 <Field label="Your name" value={form.name} onChange={update('name') as any} placeholder="Mike Torres" required />
                 <Field label="Role" value={form.role} onChange={update('role') as any} placeholder="GM / Service Director / Owner" required />
                 <Field label="Dealership" value={form.dealership} onChange={update('dealership') as any} placeholder="Hollister Ford" required />

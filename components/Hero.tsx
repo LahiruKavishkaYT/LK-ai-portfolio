@@ -51,13 +51,13 @@ const Hero: React.FC = () => {
 
   return (
     <section id="hero" style={{ paddingTop: 60, paddingBottom: 90, position: 'relative', overflow: 'hidden' }}>
-      <div style={{
+      <div className="r-pad" style={{
         maxWidth: 1240, margin: '0 auto', padding: '40px 28px',
         position: 'relative',
         backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0)',
         backgroundSize: '24px 24px',
       }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 60, alignItems: 'center' }}>
+        <div className="r-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 60, alignItems: 'center' }}>
           {/* Left: value prop */}
           <div>
             <div style={{

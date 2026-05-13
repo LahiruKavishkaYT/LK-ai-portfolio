@@ -35,7 +35,7 @@ const FAQ: React.FC = () => {
 
   return (
     <section id="faq" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 110, paddingBottom: 110 }}>
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 28px', display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80 }}>
+      <div className="r-2col" style={{ maxWidth: 1240, margin: '0 auto', padding: '0 28px', display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80 }}>
         <div>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
@@ -87,7 +87,7 @@ const FAQ: React.FC = () => {
 const FinalCTA: React.FC = () => (
   <section style={{ paddingTop: 60, paddingBottom: 60 }}>
     <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 28px' }}>
-      <div style={{
+      <div className="r-cta-inner" style={{
         background: 'rgba(255,255,255,0.04)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',

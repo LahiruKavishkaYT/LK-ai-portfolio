@@ -23,7 +23,7 @@ const HowItWorks: React.FC = () => (
         </p>
       </div>
 
-      <div style={{ marginTop: 60, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+      <div className="r-4col" style={{ marginTop: 60, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
         {([
           ['01', 'Discovery call', 'A 30-min call with your service manager. I listen to a week of your inbound audio and map the top intents.'],
           ['02', 'Train & integrate', 'Custom agent built on your inventory, hours, tech schedule. Plugged into CDK / Reynolds / Tekion.'],

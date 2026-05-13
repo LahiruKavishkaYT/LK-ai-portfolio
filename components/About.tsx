@@ -2,8 +2,8 @@ import React from 'react';
 
 const About: React.FC = () => (
   <section id="about" style={{ padding: '60px 0' }}>
-    <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 28px', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80, alignItems: 'center' }}>
-      <div>
+    <div className="r-2col" style={{ maxWidth: 1240, margin: '0 auto', padding: '0 28px', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80, alignItems: 'center' }}>
+      <div className="r-about-photo">
         <div style={{
           aspectRatio: '4 / 5',
           borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)',
@@ -25,7 +25,7 @@ const About: React.FC = () => (
         </div>
       </div>
 
-      <div>
+      <div className="r-about-text">
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 10,
           fontFamily: '"JetBrains Mono", monospace',

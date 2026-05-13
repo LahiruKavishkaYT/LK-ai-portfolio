@@ -474,9 +474,9 @@ const Features: React.FC = () => (
         </h2>
       </div>
 
-      <div style={{ marginTop: 60, display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 20 }}>
+      <div className="r-features-grid" style={{ marginTop: 60, display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 20 }}>
         {/* Feature 01 — big card */}
-        <div style={{
+        <div className="r-feat01" style={{
           ...glassCard,
           padding: 36, gridRow: 'span 2',
           display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 440,
@@ -539,7 +539,7 @@ const Features: React.FC = () => (
       </div>
 
       {/* Feature 04 — wide CRM card */}
-      <div style={{
+      <div className="r-2col" style={{
         ...glassCard,
         padding: 36, marginTop: 20,
         display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center',

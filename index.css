@@ -63,3 +63,61 @@ a { color: inherit; text-decoration: none; }
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(24px, -32px) scale(1.06); }
 }
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 6px; }
+.nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .2s ease-in-out, opacity .2s ease-in-out; }
+
+@media (max-width: 768px) {
+  /* Navbar */
+  .nav-links { display: none !important; }
+  .nav-hamburger { display: flex !important; }
+
+  /* Inner content padding */
+  .r-pad { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* Hero grid → single column */
+  .r-hero-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+
+  /* Generic 2-column → 1 column */
+  .r-2col { grid-template-columns: 1fr !important; gap: 24px !important; }
+
+  /* 3-column → 1 column */
+  .r-3col { grid-template-columns: 1fr !important; }
+
+  /* 4-column → 2-column */
+  .r-4col { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
+
+  /* Features bento grid → single column */
+  .r-features-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .r-feat01 { grid-row: auto !important; min-height: auto !important; }
+
+  /* Math formula → horizontal scroll */
+  .r-math-wrap { overflow-x: auto; margin: 20px -16px 0; padding: 0 4px; }
+  .r-math-inner { min-width: 520px; padding: 24px 20px !important; }
+
+  /* About → text first, photo below */
+  .r-about-photo { order: 2; }
+  .r-about-text  { order: 1; }
+
+  /* Offer right column → remove left border, add top border */
+  .r-no-border-left {
+    border-left: none !important;
+    padding-left: 0 !important;
+    padding-top: 24px !important;
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
+  }
+
+  /* FinalCTA padding */
+  .r-cta-inner { padding: 44px 24px !important; }
+
+  /* Section vertical spacing */
+  .r-tight { padding-top: 70px !important; padding-bottom: 70px !important; }
+}
+
+@media (max-width: 480px) {
+  .r-4col    { grid-template-columns: 1fr !important; }
+  .r-3col    { gap: 14px !important; }
+  h3         { font-size: 22px; }
+}

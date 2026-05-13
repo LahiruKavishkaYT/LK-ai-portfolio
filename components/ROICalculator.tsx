@@ -24,7 +24,7 @@ const Results: React.FC = () => (
       </div>
 
       {/* 3 stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 60 }}>
+      <div className="r-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 60 }}>
         {([
           {
             stat: '1 in 4',
@@ -68,7 +68,8 @@ const Results: React.FC = () => (
       </div>
 
       {/* Do the math box */}
-      <div style={{
+      <div className="r-math-wrap">
+      <div className="r-math-inner" style={{
         marginTop: 20, padding: '40px 48px',
         background: 'rgba(0,245,212,0.04)',
         backdropFilter: 'blur(12px)',
@@ -112,6 +113,7 @@ const Results: React.FC = () => (
         })}
       </div>
 
+      </div>{/* end r-math-wrap */}
       <div style={{ marginTop: 12, textAlign: 'center' }}>
         <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, color: 'var(--ink-faint)' }}>
           The agent costs $300–$700/mo. Do the math. →{' '}
